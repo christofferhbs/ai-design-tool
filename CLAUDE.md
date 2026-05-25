@@ -55,7 +55,7 @@ Project apps use `ProjectShell` over the same `DCSection`/`DCArtboard` tree:
 
 - **Dev mode** (`import.meta.env.DEV`, including `npm run dev` and
   `npm run dev:<name>`) renders `DesignCanvas` with pan/zoom, edit handles,
-  reorder controls, focus mode, thumbnail capture, and canvas state writes.
+  reorder controls, focus mode, and canvas state writes.
 - **Built/deployed mode** renders `Presenter`: a clean gallery/focus viewer
   with no designer chrome. The tweaks panel stays available, artboards can be
   opened directly by URL hash, and focus navigation keeps the hash shareable.
@@ -79,27 +79,16 @@ For manual setup:
    the script src in `index.html`.
 2. Add an entry to `projects.json` with a relative `urlPath` (no leading slash,
    e.g. `"projects/<name>/"`). This is the single source of truth for the
-   project list, the root Vite MPA inputs, and the thumbnail system.
+   project list and the root Vite MPA inputs.
 3. Add `dev:<name>`, `build:<name>`, and `preview:<name>` scripts if you want
    focused per-project commands.
 
-### Thumbnail generation
-
-Thumbnails are captured client-side in the browser during dev and saved as
-`projects/<name>/thumbnail.webp`. No external tools or headless browsers.
-
-- The `useThumbnail` hook in `design-canvas.jsx` triggers automatically 3
-  seconds after the canvas mounts. It captures the first artboard via
-  `html-to-image` and POSTs the WebP image to `/__thumbnail/write`.
-- The dev server (`thumbnailWritePlugin` in `vite.config.js`) handles that
-  endpoint and writes the file to disk.
-- Commit `thumbnail.webp` to the repo so it is included in production builds.
-
 ### Deployment
 
-The app is deployed to GitHub Pages via `.github/workflows/deploy.yml` on
-every push to `main`. The workflow builds the full MPA with
-`--base /ai-design-tool/` and copies committed thumbnails into `dist/`.
+The app is deployed to GitHub Pages via `.github/workflows/pipeline.yml`.
+Pushes to `main` and manual dispatches build and deploy; pull requests run
+the build only (no Pages API calls, no deploy). The build runs
+`npm run build -- --base /ai-design-tool/`.
 
 Live URLs:
 - Projects page: `https://christofferhbs.github.io/ai-design-tool/`

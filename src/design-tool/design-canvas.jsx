@@ -308,36 +308,6 @@ function DesignCanvas({ children, minScale, maxScale, style }) {
   );
 }
 
-// Captures the first artboard as a WebP thumbnail and POSTs it to the dev
-// server. Only runs in dev mode; the dynamic import is tree-shaken in prod.
-function useThumbnail(vpRef) {
-  React.useEffect(() => {
-    if (!import.meta.env.DEV) return;
-    const t = setTimeout(async () => {
-      const vp = vpRef.current;
-      if (!vp) return;
-      const card = vp.querySelector('.dc-card');
-      if (!card) return;
-      try {
-        const { toCanvas } = await import('html-to-image');
-        const canvas = await toCanvas(card);
-        const dataUrl = canvas.toDataURL('image/webp', 0.85);
-        const dir = location.pathname.endsWith('/')
-          ? location.pathname
-          : location.pathname.replace(/\/[^/]*$/, '/');
-        fetch('/__thumbnail/write', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path: dir, dataUrl }),
-        }).catch(() => {});
-      } catch (e) {
-        console.warn('[thumbnail]', e.message);
-      }
-    }, 3000);
-    return () => clearTimeout(t);
-  }, []);
-}
-
 // ─────────────────────────────────────────────────────────────
 // DCViewport — transform-based pan/zoom (internal)
 //
@@ -354,7 +324,6 @@ function useThumbnail(vpRef) {
 function DCViewport({ children, minScale = 0.1, maxScale = 8, style = {}, panToRef }) {
   const vpRef = React.useRef(null);
   const worldRef = React.useRef(null);
-  useThumbnail(vpRef);
   const tf = React.useRef({ x: 0, y: 0, scale: 1 });
   // Persist viewport across reloads so the user lands back where they were
   // after an agent edit or browser refresh. The sandbox origin is already

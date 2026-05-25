@@ -14,21 +14,26 @@ const gridSvg = `url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='
 
 const CARD_W = 400;
 const CARD_H = Math.round(CARD_W * 9 / 16);
+// The iframe renders the project at full viewport size, then we scale it
+// down to fit the card. Wider than the card so cards show a content area
+// proportional to a real desktop view.
+const FRAME_W = 1280;
+const FRAME_H = Math.round(FRAME_W * CARD_H / CARD_W);
+const FRAME_SCALE = CARD_W / FRAME_W;
 
 function ProjectCard({ project }) {
-  const [thumbOk, setThumbOk] = React.useState(true);
   const [hovered, setHovered] = React.useState(false);
   const base = import.meta.env.BASE_URL;
-  const thumbnail = `${base}projects/${project.id}/thumbnail.webp`;
+  const projectUrl = base + project.urlPath;
 
   return (
     <div style={{ flexShrink: 0 }}>
       <div style={{ marginBottom: 8, fontSize: 15, fontWeight: 500, color: DC.label }}>
         {project.name}
       </div>
-      <a
-        href={base + project.urlPath}
+      <div
         style={{
+          position: 'relative',
           display: 'block',
           width: CARD_W, height: CARD_H,
           background: '#fff',
@@ -37,25 +42,35 @@ function ProjectCard({ project }) {
             ? '0 1px 3px rgba(0,0,0,.10),0 8px 28px rgba(0,0,0,.13)'
             : '0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06)',
           overflow: 'hidden',
-          textDecoration: 'none',
           transition: 'box-shadow .15s',
         }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {thumbOk ? (
-          <img
-            src={thumbnail}
-            alt={project.name}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            onError={() => setThumbOk(false)}
-          />
-        ) : (
-          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#bbb', fontSize: 13 }}>
-            No thumbnail
-          </div>
-        )}
-      </a>
+        <iframe
+          src={projectUrl + '?preview=1'}
+          title={project.name}
+          loading="lazy"
+          tabIndex={-1}
+          aria-hidden={true}
+          style={{
+            width: FRAME_W, height: FRAME_H,
+            border: 0,
+            transform: `scale(${FRAME_SCALE})`,
+            transformOrigin: 'top left',
+            pointerEvents: 'none',
+            display: 'block',
+          }}
+        />
+        <a
+          href={projectUrl}
+          aria-label={project.name}
+          style={{
+            position: 'absolute',
+            inset: 0,
+          }}
+        />
+      </div>
       {project.description && (
         <div style={{ marginTop: 8, fontSize: 12, color: DC.subtitle, maxWidth: CARD_W }}>
           {project.description}
