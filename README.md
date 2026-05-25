@@ -24,7 +24,7 @@ Each app describes its artboards with three shared primitives:
 `ProjectShell` chooses the right shell for the environment.
 
 Dev mode uses the design canvas. It has pan, zoom, reorder, edit controls,
-thumbnail capture, and canvas state writes.
+and canvas state writes.
 
 Production uses the presenter. It has a gallery, fullscreen artboard view, and
 readable hash links. It does not include reorder, delete, or canvas state writes.
@@ -78,16 +78,7 @@ npm run new-project -- my-project "My Project" "Description"
 +-- .github/workflows/    GitHub Pages deploy
 ```
 
-## Thumbnails
-
-Project thumbnails live at `projects/<slug>/thumbnail.webp`.
-
-Run the project in dev mode to refresh the thumbnail. Commit the file so the
-project gallery can show it locally and on GitHub Pages.
-
 ## Deploy
 
-Pushing to `main` runs the GitHub Pages workflow.
-
-The workflow builds the app, copies committed thumbnails into `dist/`, and
-deploys the result to GitHub Pages.
+Pushing to `main` runs the GitHub Pages workflow. Pull requests run the build
+only.

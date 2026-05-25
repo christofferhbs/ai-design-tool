@@ -14,12 +14,17 @@ const gridSvg = `url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='
 
 const CARD_W = 400;
 const CARD_H = Math.round(CARD_W * 9 / 16);
+// The iframe renders the project at full viewport size, then we scale it
+// down to fit the card. Wider than the card so cards show a content area
+// proportional to a real desktop view.
+const FRAME_W = 1280;
+const FRAME_H = Math.round(FRAME_W * CARD_H / CARD_W);
+const FRAME_SCALE = CARD_W / FRAME_W;
 
 function ProjectCard({ project }) {
-  const [thumbOk, setThumbOk] = React.useState(true);
   const [hovered, setHovered] = React.useState(false);
   const base = import.meta.env.BASE_URL;
-  const thumbnail = `${base}projects/${project.id}/thumbnail.webp`;
+  const projectUrl = base + project.urlPath;
 
   return (
     <div style={{ flexShrink: 0 }}>
@@ -27,8 +32,9 @@ function ProjectCard({ project }) {
         {project.name}
       </div>
       <a
-        href={base + project.urlPath}
+        href={projectUrl}
         style={{
+          position: 'relative',
           display: 'block',
           width: CARD_W, height: CARD_H,
           background: '#fff',
@@ -43,18 +49,20 @@ function ProjectCard({ project }) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {thumbOk ? (
-          <img
-            src={thumbnail}
-            alt={project.name}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            onError={() => setThumbOk(false)}
-          />
-        ) : (
-          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#bbb', fontSize: 13 }}>
-            No thumbnail
-          </div>
-        )}
+        <iframe
+          src={projectUrl + '?preview=1'}
+          title={project.name}
+          loading="lazy"
+          tabIndex={-1}
+          style={{
+            width: FRAME_W, height: FRAME_H,
+            border: 0,
+            transform: `scale(${FRAME_SCALE})`,
+            transformOrigin: 'top left',
+            pointerEvents: 'none',
+            display: 'block',
+          }}
+        />
       </a>
       {project.description && (
         <div style={{ marginTop: 8, fontSize: 12, color: DC.subtitle, maxWidth: CARD_W }}>
