@@ -1,0 +1,138 @@
+/* Højvang Økologi — design tokens
+ * Lifted 1:1 from config/settings_data.json + snippets/color-schemes.liquid
+ * Repo: Onium-Development/hojvang-horizon
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap");
+
+:root {
+  /* ---------- Brand palette (1:1) ---------- */
+  --brand-cream: #f5f3ee;          /* primary background */
+  --brand-stone: #eef1ea;          /* scheme-3 bg */
+  --brand-sky: #e1edf5;            /* scheme-4 bg */
+  --brand-brown: #8a6822;          /* sale badge / warm earth accent */
+  --brand-green-rich: #2a4e28;     /* scheme-rich-green */
+  --brand-green-mid: #4e7730;      /* hover on green */
+  --brand-ink: #000000;            /* heading fg */
+  --brand-ink-soft: #000000cf;     /* body fg on light (81% black) */
+  --brand-charcoal: #3c3e3f;       /* secondary button on green */
+  --brand-grey: #8c8c8c;           /* sold-out badge / subtle */
+  --brand-grey-soft: #dfdfdf;      /* dividers */
+
+  /* ---------- Semantic (mapped) ---------- */
+  --color-bg: var(--brand-cream);
+  --color-bg-alt: var(--brand-stone);
+  --color-fg: var(--brand-ink-soft);
+  --color-fg-heading: var(--brand-ink);
+  --color-fg-muted: rgb(0 0 0 / 0.6);
+  --color-border: rgb(0 0 0 / 0.06);
+  --color-border-strong: rgb(0 0 0 / 0.81);
+  --color-primary: var(--brand-ink);
+  --color-primary-hover: var(--brand-green-rich);
+  --color-on-primary: var(--brand-cream);
+
+  --color-success: #2a4e28;        /* reuse rich green */
+  --color-warning: #8a6822;        /* reuse brown */
+  --color-danger: #8b1f1f;         /* derived; flag for review */
+  --color-info: #1d3686;           /* from scheme-4 border */
+
+  /* ---------- Type ---------- */
+  --font-heading: "DM Serif Display", "Cormorant Garamond", Georgia, serif;
+  --font-subheading: "Montserrat", "Inter", system-ui, sans-serif;
+  --font-body: "Work Sans", "Inter", system-ui, sans-serif;
+
+  /* Sizes (Shopify Horizon scale) */
+  --fs-h1: 48px;
+  --fs-h2: 40px;
+  --fs-h3: 40px;
+  --fs-h4: 32px;
+  --fs-h5: 20px;
+  --fs-h6: 12px;
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-micro: 12px;
+
+  --lh-display-tight: 1.05;
+  --lh-display-normal: 1.15;
+  --lh-display-loose: 1.4;
+  --lh-body-loose: 1.6;
+
+  /* Semantic type roles */
+  --type-h1: 400 var(--fs-h1)/var(--lh-display-tight) var(--font-heading);
+  --type-h2: 400 var(--fs-h2)/var(--lh-display-tight) var(--font-heading);
+  --type-h3: 400 var(--fs-h3)/var(--lh-display-tight) var(--font-heading);
+  --type-h4: 400 var(--fs-h4)/var(--lh-display-normal) var(--font-heading);
+  --type-h5: 700 var(--fs-h5)/var(--lh-display-normal) var(--font-subheading);
+  --type-h6: 700 var(--fs-h6)/var(--lh-display-loose) var(--font-subheading);
+  --type-eyebrow: 600 var(--fs-micro)/1.2 var(--font-subheading);
+  --type-body: 400 var(--fs-body)/var(--lh-body-loose) var(--font-body);
+  --type-small: 400 var(--fs-small)/1.5 var(--font-body);
+
+  /* ---------- Shape ---------- */
+  --radius-button: 8px;
+  --radius-card: 8px;
+  --radius-input: 8px;
+  --radius-popover: 12px;
+  --radius-pill: 32px;
+  --radius-product: 0px;
+
+  /* ---------- Spacing ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* ---------- Elevation ---------- */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.04);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.08);
+  --shadow-drawer: 0 4px 20px rgb(0 0 0 / 0.15);
+
+  /* ---------- A11y focus ring ---------- */
+  --focus-ring: 0 0 0 3px var(--brand-cream), 0 0 0 6px var(--brand-green-rich);
+}
+
+/* ---------- Base ---------- */
+html { font-size: 16px; }
+body {
+  margin: 0;
+  font: var(--type-body);
+  color: var(--color-fg);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 { color: var(--color-fg-heading); margin: 0; text-wrap: pretty; }
+h1 { font: var(--type-h1); }
+h2 { font: var(--type-h2); }
+h3 { font: var(--type-h3); }
+h4 { font: var(--type-h4); }
+h5 { font: var(--type-h5); }
+h6 { font: var(--type-h6); letter-spacing: 0.06em; text-transform: uppercase; }
+
+p { margin: 0; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Color schemes (mapped from settings_data.json) ---------- */
+.scheme-cream  { --color-bg: var(--brand-cream); --color-fg: var(--brand-ink-soft); --color-fg-heading: var(--brand-ink); }
+.scheme-stone  { --color-bg: var(--brand-stone); --color-fg: var(--brand-ink-soft); --color-fg-heading: var(--brand-ink); }
+.scheme-green  { --color-bg: var(--brand-green-rich); --color-fg: var(--brand-cream); --color-fg-heading: var(--brand-cream); }
+.scheme-brown  { --color-bg: var(--brand-brown); --color-fg: var(--brand-cream); --color-fg-heading: var(--brand-cream); }

@@ -1,0 +1,24 @@
+{
+  "name": "ai-design-tool",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "new-project": "node scripts/new-project.mjs",
+    "dev": "vite",
+    "dev:leveringstidslinje": "vite --config projects/leveringstidslinje/vite.config.js",
+    "build": "vite build",
+    "build:leveringstidslinje": "vite build --config projects/leveringstidslinje/vite.config.js",
+    "preview": "vite preview",
+    "preview:leveringstidslinje": "vite preview --config projects/leveringstidslinje/vite.config.js"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "html-to-image": "^1.11.13",
+    "vite": "^5.4.11"
+  }
+}
