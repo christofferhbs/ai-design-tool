@@ -31,8 +31,7 @@ function ProjectCard({ project }) {
       <div style={{ marginBottom: 8, fontSize: 15, fontWeight: 500, color: DC.label }}>
         {project.name}
       </div>
-      <a
-        href={projectUrl}
+      <div
         style={{
           position: 'relative',
           display: 'block',
@@ -43,7 +42,6 @@ function ProjectCard({ project }) {
             ? '0 1px 3px rgba(0,0,0,.10),0 8px 28px rgba(0,0,0,.13)'
             : '0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06)',
           overflow: 'hidden',
-          textDecoration: 'none',
           transition: 'box-shadow .15s',
         }}
         onMouseEnter={() => setHovered(true)}
@@ -54,6 +52,7 @@ function ProjectCard({ project }) {
           title={project.name}
           loading="lazy"
           tabIndex={-1}
+          aria-hidden={true}
           style={{
             width: FRAME_W, height: FRAME_H,
             border: 0,
@@ -63,7 +62,15 @@ function ProjectCard({ project }) {
             display: 'block',
           }}
         />
-      </a>
+        <a
+          href={projectUrl}
+          aria-label={project.name}
+          style={{
+            position: 'absolute',
+            inset: 0,
+          }}
+        />
+      </div>
       {project.description && (
         <div style={{ marginTop: 8, fontSize: 12, color: DC.subtitle, maxWidth: CARD_W }}>
           {project.description}
