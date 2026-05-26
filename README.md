@@ -1,7 +1,7 @@
 # AI Design Tool
 
-A Vite/React workspace for design prototypes produced by an AI agent. You
-brief the agent in natural language and iterate with it in the design canvas.
+A Vite/React workspace for design prototypes. You brief the agent in natural
+language and iterate with it in the design canvas.
 
 ## Screenshots
 
