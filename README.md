@@ -1,15 +1,15 @@
 # AI Design Tool
 
 A Vite/React workspace for design prototypes produced by an AI agent. You
-brief the agent in natural language and iterate with it in the dev canvas.
+brief the agent in natural language and iterate with it in the design canvas.
 
 ## Screenshots
 
-| Projects gallery | Project presenter |
+| Projects page | Presentation canvas gallery |
 | --- | --- |
-| <img src="docs/screenshots/projects-gallery.png" alt="Projects gallery" width="420"> | <img src="docs/screenshots/presenter-gallery.png" alt="Project presenter gallery" width="420"> |
-| **Focused artboard** | **Design canvas (dev mode)** |
-| <img src="docs/screenshots/presenter-artboard.png" alt="Presenter focused artboard" width="420"> | <img src="docs/screenshots/design-canvas.png" alt="Design canvas in dev mode" width="420"> |
+| <img src="docs/screenshots/projects-page.png" alt="Projects page" width="420"> | <img src="docs/screenshots/presentation-canvas-gallery.png" alt="Presentation canvas gallery" width="420"> |
+| **Presentation canvas focus view** | **Design canvas (dev mode)** |
+| <img src="docs/screenshots/presentation-canvas-focus.png" alt="Presentation canvas focus view" width="420"> | <img src="docs/screenshots/design-canvas.png" alt="Design canvas in dev mode" width="420"> |
 
 ## Idea
 
@@ -25,9 +25,9 @@ You are the manager, the agent is the designer.
 You brief the agent in natural language. It asks clarifying questions about
 audience, fidelity, brand, and which tweaks to expose, then scaffolds a
 child project under `projects/<slug>/` using the shared primitives below.
-You review in the dev canvas, adjust live tweaks, and point at things to
+You review in the design canvas, adjust live tweaks, and point at things to
 change. The agent iterates until the work is ready to ship via the
-presenter.
+presentation canvas.
 
 The agent's role and rules live in `.agents/system-prompt.md`. Task
 procedures (wireframes, decks, prototypes, tweak panels, accessibility
@@ -48,18 +48,19 @@ Each app describes its artboards with three shared primitives:
 
 `ProjectShell` chooses the right shell for the environment.
 
-Dev mode uses the design canvas. It has pan, zoom, reorder, edit controls,
-and canvas state writes.
+Dev mode renders `DesignCanvas`. It has pan, zoom, reorder controls, edit
+handles, focus mode, and canvas state writes.
 
-Production uses the presenter. It has a gallery, fullscreen artboard view, and
-readable hash links. It does not include reorder, delete, or canvas state writes.
+Built/deployed mode renders `PresentationCanvas`. It has a clean gallery,
+focus view, and readable hash links. It does not include reorder, delete, or
+canvas state writes.
 
 ## Tweaks
 
 A floating panel exposes a small set of live controls for the current
 project: color, copy, layout variants, dates, feature flags. Use it to
-compare options without editing files. The panel is available in both dev
-and presenter modes.
+compare options without editing files. The panel is available in both design
+and presentation modes.
 
 Values persist to `localStorage` and survive reloads. Defaults live in a
 `TWEAK_DEFAULTS` block at the top of `src/app.jsx`, so the deployed version
@@ -105,8 +106,8 @@ npm run new-project -- my-project "My Project" "Description"
 .
 +-- .agents/              agent system prompt and skill procedures
 +-- src/
-|   +-- design-tool/      shared canvas, presenter, tweaks, Vite plugins
-|   +-- ProjectsPage.jsx  project gallery at /
+|   +-- design-tool/      shared canvases, tweaks, Vite plugins
+|   +-- ProjectsPage.jsx  projects page at /
 +-- projects/
 |   +-- leveringstidslinje/
 |       +-- src/app.jsx   project artboard tree and tweak defaults
