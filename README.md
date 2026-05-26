@@ -84,10 +84,10 @@ npm run dev:leveringstidslinje
 npm run build
 ```
 
-Create a new project:
+For new projects, brief the agent and it will run the scaffold command:
 
 ```bash
-npm run new-project -- my-project "My Project" "Description"
+npm run new-project my-project "My Project" "Description"
 ```
 
 ## Structure
