@@ -8,7 +8,7 @@ export function slugifyRoutePart(value, fallback = 'item') {
     .replace(/[ø]/g, 'o')
     .replace(/[å]/g, 'aa')
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/-+/g, '-')
     .replace(/^-|-$/g, '');
@@ -37,15 +37,15 @@ export function withRouteSlugs(sections) {
   });
 }
 
-export function hashFor(sectionSlug, artboardSlug) {
+function hashFor(sectionSlug, artboardSlug) {
   return `#${encodeURIComponent(sectionSlug)}/${encodeURIComponent(artboardSlug)}`;
 }
 
-export function clearHashUrl() {
+function clearHashUrl() {
   return window.location.pathname + window.location.search;
 }
 
-export function parseHash() {
+function parseHash() {
   const raw = window.location.hash.replace(/^#/, '');
   if (!raw) return null;
   const [sectionSlug, artboardSlug] = raw.split('/').map((part) => {
@@ -62,14 +62,14 @@ export function findFocus(sections, focus) {
   return section && artboard ? { section, artboard } : null;
 }
 
-export function findFocusByRoute(sections, route) {
+function findFocusByRoute(sections, route) {
   if (!route) return null;
   const section = sections.find((s) => s.routeSlug === route.sectionSlug);
   const artboard = section?.artboards.find((a) => a.routeSlug === route.artboardSlug);
   return section && artboard ? { section, artboard } : null;
 }
 
-export function focusFromHash(sections) {
+function focusFromHash(sections) {
   const active = findFocusByRoute(sections, parseHash());
   return active ? { sectionId: active.section.id, artboardId: active.artboard.id } : null;
 }
@@ -79,13 +79,11 @@ function hashForFocus(sections, focus) {
   return active ? hashFor(active.section.routeSlug, active.artboard.routeSlug) : clearHashUrl();
 }
 
-export function slotFromHash(routeRegistry) {
-  const parsed = parseHash();
-  if (!parsed) return null;
-  return routeRegistry[`${parsed.sectionSlug}/${parsed.artboardSlug}`] ?? null;
-}
-
-export function usePresenterFocusRoute(sections) {
+// Single focus hook used by both the DesignCanvas and the PresentationCanvas.
+// Returns [focus, setFocus, active] where focus is `{sectionId, artboardId} | null`
+// and active is the resolved `{section, artboard}` from the current sections.
+// The URL hash is the source of truth; the hook keeps state and hash in sync.
+export function useFocusRoute(sections) {
   const [focus, setFocus] = React.useState(() => focusFromHash(sections));
   const applyingHistory = React.useRef(false);
 
@@ -125,17 +123,4 @@ export function usePresenterFocusRoute(sections) {
   }, [focus, sections]);
 
   return [focus, setFocus, findFocus(sections, focus)];
-}
-
-export function useCanvasFocusRoute(registryRef, setFocusSlot) {
-  React.useEffect(() => {
-    const syncFocusFromHash = () => setFocusSlot(slotFromHash(registryRef.current));
-    syncFocusFromHash();
-    window.addEventListener('hashchange', syncFocusFromHash);
-    window.addEventListener('popstate', syncFocusFromHash);
-    return () => {
-      window.removeEventListener('hashchange', syncFocusFromHash);
-      window.removeEventListener('popstate', syncFocusFromHash);
-    };
-  }, [registryRef, setFocusSlot]);
 }

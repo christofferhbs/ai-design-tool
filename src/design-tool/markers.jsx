@@ -11,7 +11,7 @@ export function dcFlatten(children) {
   return out;
 }
 
-// Marker components: Presenter reads these elements directly; DesignCanvas
-// converts them into editable canvas frames in dev mode.
+// Marker components: PresentationCanvas reads these elements directly;
+// DesignCanvas converts them into editable canvas frames in dev mode.
 export function DCSection() { return null; }
 export function DCArtboard() { return null; }
