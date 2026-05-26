@@ -11,7 +11,7 @@ language and iterate with it in the design canvas.
 | **Presentation canvas focus view** | **Design canvas (dev mode)** |
 | <img src="docs/screenshots/presentation-canvas-focus.png" alt="Presentation canvas focus view" width="420"> | <img src="docs/screenshots/design-canvas.png" alt="Design canvas in dev mode" width="420"> |
 
-## Idea
+## Model
 
 Each design project is a normal React app.
 
