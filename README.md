@@ -71,19 +71,9 @@ The panel is built from `useTweaks`, `TweaksPanel`, `TweakSection`, and
 
 ## Links
 
-Local:
-
-- `http://localhost:5173/`
-- `http://localhost:5173/projects/leveringstidslinje/`
-- `http://localhost:5173/projects/leveringstidslinje/#forside/hojvang-okologi-forside`
-- `http://localhost:5173/projects/leveringstidslinje/#leveringstidslinje/bestilling`
-- `http://localhost:5173/projects/leveringstidslinje/#leveringstidslinje/forudbestilling`
-
-GitHub Pages:
-
-- `https://christofferhbs.github.io/ai-design-tool/`
-- `https://christofferhbs.github.io/ai-design-tool/projects/leveringstidslinje/`
-- `https://christofferhbs.github.io/ai-design-tool/projects/leveringstidslinje/#forside/hojvang-okologi-forside`
+- `/` - projects page
+- `/projects/<slug>/` - project gallery
+- `/projects/<slug>/#<section>/<artboard>` - focused artboard
 
 ## Commands
 
