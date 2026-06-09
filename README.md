@@ -3,6 +3,8 @@
 A Vite/React workspace for design prototypes. You brief the agent in natural
 language and iterate with it in the design canvas.
 
+See presentation canvas @ https://christofferhbs.github.io/ai-design-tool/
+
 ## Screenshots
 
 | Projects page | Presentation canvas gallery |
